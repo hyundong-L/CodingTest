@@ -21,7 +21,7 @@ class Solution {
             head = head.next;
         }
 
-        Collections.sort(list);
+        list = mergeSort(list, 0, list.size() - 1);
 
         ListNode answer = new ListNode(list.get(0));
         ListNode current = answer;
@@ -32,5 +32,46 @@ class Solution {
         }
 
         return answer;
+    }
+
+    private List<Integer> mergeSort(List<Integer> listNode, int p, int r) {
+        if (p < r) {
+            int q = (p + r) / 2;
+            listNode = mergeSort(listNode, p, q);
+            listNode = mergeSort(listNode, q + 1, r);
+            return merge(listNode, p, q, r);
+        } else {
+            return listNode;
+        }
+    }
+
+    private List<Integer> merge(List<Integer> listNode, int p, int q, int r) {
+        List<Integer> result = new ArrayList<>();
+        int left = p, right = q + 1;
+
+        while (left <= q && right <= r) {
+            if (listNode.get(left) <= listNode.get(right)) {
+                result.add(listNode.get(left));
+                left++;
+            } else {
+                result.add(listNode.get(right));
+                right++;
+            }
+        }
+
+        while (left <= q) {
+            result.add(listNode.get(left));
+            left++;
+        }
+        while (right <= r) {
+            result.add(listNode.get(right));
+            right++;
+        }
+
+        for (int i = 0; i < result.size(); i++) {
+            listNode.set(p + i, result.get(i));
+        }
+
+        return listNode;
     }
 }

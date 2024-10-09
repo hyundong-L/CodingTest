@@ -26,10 +26,31 @@ class Solution {
         String aCase = String.valueOf(list[a]) + String.valueOf(list[b]);
         String bCase = String.valueOf(list[b]) + String.valueOf(list[a]);
 
-        if (aCase.compareTo(bCase) < 0) {
+//        if (aCase.compareTo(bCase) < 0) {
+//            int temp = list[a];
+//            list[a] = list[b];
+//            list[b] = temp;
+//        }
+
+        if (customCompareTo(aCase, bCase) < 0) {
             int temp = list[a];
             list[a] = list[b];
             list[b] = temp;
         }
+    }
+
+    private int customCompareTo(String a, String b) {
+        if (a.length() == b.length()) {
+            for (int i = 0; i < a.length(); i++) {
+                if (a.charAt(i) == b.charAt(i)) {
+                    continue;
+                } else if (a.charAt(i) > b.charAt(i)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        }
+        return a.length() > b.length() ? 1 : -1;
     }
 }

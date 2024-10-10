@@ -2,7 +2,11 @@ class Solution {
     public String largestNumber(int[] nums) {
         StringBuilder result = new StringBuilder();
 
-        quickSort(nums, 0, nums.length - 1);
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                customSort(nums, i, j);
+            }
+        }
 
         for (int num : nums) {
             result.append(num);
@@ -16,57 +20,16 @@ class Solution {
         return result.toString();
     }
 
-    private int partition(int[] nums, int low, int high) {
-        int pivot = high;
-
-        int i = low - 1;
-        for (int j = low; j < pivot; j++) {
-            int compareValue = customCompareTo(nums, j, pivot);
-
-            if (compareValue > 0) {
-                int temp = nums[++i];
-                nums[i] = nums[j];
-                nums[j] = temp;
-            }
-        }
-
-        int temp = nums[i + 1];
-        nums[i + 1] = nums[pivot];
-        nums[pivot] = temp;
-
-        return i + 1;
-    }
-
-    private void quickSort(int[] nums, int low, int high) {
-        if (low < high) {
-            int pivot = partition(nums, low, high);
-
-            quickSort(nums, low, pivot - 1);
-            quickSort(nums, pivot + 1, high);
-        }
-    }
-
-    // a > b -> 1
-    // a < b -> -1
-    // a == b -> 0
-    private int customCompareTo(int[] list, int a, int b) {
+    //커스텀 정렬 메서드 -> 매개변수를 문자열로 더했을 때 더 큰 수가 나오도록 정렬
+    //compareTo() 사용
+    private void customSort(int[] list, int a, int b) {
         String aCase = String.valueOf(list[a]) + String.valueOf(list[b]);
         String bCase = String.valueOf(list[b]) + String.valueOf(list[a]);
 
-        if (aCase.length() == bCase.length()) {
-            for (int i = 0; i < aCase.length(); i++) {
-                if (aCase.charAt(i) == bCase.charAt(i)) {
-                    continue;
-                } else if (aCase.charAt(i) > bCase.charAt(i)) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-
-            return 0;
+        if (aCase.compareTo(bCase) < 0) {
+            int temp = list[a];
+            list[a] = list[b];
+            list[b] = temp;
         }
-
-        return aCase.length() > bCase.length() ? 1 : -1;
     }
 }

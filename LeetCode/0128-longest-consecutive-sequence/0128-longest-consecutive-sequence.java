@@ -9,19 +9,20 @@ class Solution {
             hashSet.add(num);
         }
 
+        List<Integer> list = new ArrayList<>(hashSet);
+        list.sort(Integer::compareTo);
+
         int beforeResult = 0;
-        for (int num : hashSet) {
-            if (!hashSet.contains(num - 1)) {
-                int len = 1;
-                int nextNum = num + 1;
-                while (hashSet.contains(nextNum)) {
-                    nextNum++;
-                    len++;
-                }
-                
-                beforeResult = Math.max(beforeResult, len);
+        int temp = 1;
+        for (int i = 0; i <= list.size() - 2; i++) {
+            if (list.get(i + 1) - list.get(i) == 1) {
+                temp++;
+            } else {
+                beforeResult = Math.max(temp, beforeResult);
+                temp = 1;
             }
         }
+        beforeResult = Math.max(temp, beforeResult);
 
         return beforeResult;
     }

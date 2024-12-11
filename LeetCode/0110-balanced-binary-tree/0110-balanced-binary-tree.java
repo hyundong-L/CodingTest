@@ -28,10 +28,6 @@ class Solution {
         int right = checkChildNodeNum(root.right);
         if (right == -1) return -1;
 
-        if (Math.abs(left - right) > 1) {
-            return -1;
-        }
-
-        return Math.max(left, right) + 1;
+        return Math.abs(left - right) > 1 ? -1 : Math.max(left, right) + 1;
     }
 }
